@@ -11,25 +11,25 @@ namespace CashAccountingEntities {
         private string _ServiceName = default(string);
         public string ServiceName {
             get { return _ServiceName; }
-            set { ChangeProperty<string>(value); }
+            set { ChangeProperty(value); }
         }
 
         private string _BuildVersion = default(string);
         public string BuildVersion {
             get { return _BuildVersion; }
-            set { ChangeProperty<string>(value); }
+            set { ChangeProperty(value); }
         }
 
         private string _ProductVersion = default(string);
         public string ProductVersion {
             get { return _ProductVersion; }
-            set { ChangeProperty<string>(value); }
+            set { ChangeProperty(value); }
         }
 
         private ObservableCollection<AssemblyVersion> _AssemblyVersions = new ObservableCollection<AssemblyVersion>();
         public ObservableCollection<AssemblyVersion> AssemblyVersions {
             get { return _AssemblyVersions; }
-            protected set { ChangeProperty<ObservableCollection<AssemblyVersion>>(value); }
+            protected set { ChangeProperty(value); }
         }
     }
 }

@@ -11,13 +11,13 @@ namespace CashAccountingEntities {
         private string _NameOfAssembly = default(string);
         public string NameOfAssembly {
             get { return _NameOfAssembly; }
-            set { ChangeProperty<string>(value); }
+            set { ChangeProperty(value); }
         }
 
         private string _VersionOfAssembly = default(string);
         public string VersionOfAssembly {
             get { return _VersionOfAssembly; }
-            set { ChangeProperty<string>(value); }
+            set { ChangeProperty(value); }
         }
 
 
