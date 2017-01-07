@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CashAccountingEntities {
-    public abstract class EntityBase : INotifyPropertyChanged {
+namespace TrayHost.ViewModel {
+    public abstract class BaseViewModel : INotifyPropertyChanged {
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -20,7 +21,8 @@ namespace CashAccountingEntities {
         /// <param name="newValue">New value for the property.</param>
         /// <param name="backingFieldPrefix">Prefix for the backing field of the property. Default is '_'</param>
         /// <param name="propName">Name of property which value is about to be set.</param>
-        protected void ChangeProperty<T>(T newValue, string backingFieldPrefix = "_", [CallerMemberName]string propName = "") {
+        /// <returns>'true' if property has changed, otherwise false.</returns>
+        protected bool ChangeProperty<T>(T newValue, string backingFieldPrefix = "_", [CallerMemberName]string propName = "") {
             // Check if property is available at all.
             PropertyInfo prpInf = this.GetType().GetProperty(propName);
             if(prpInf == null) {
@@ -40,11 +42,24 @@ namespace CashAccountingEntities {
             prpField.SetValue(this, newValue);
             // Raise PropertyChanged if necessary.
             if(oldValue == null && newValue != null || oldValue != null && newValue == null || !oldValue.Equals(newValue)) {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+                ////PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+                OnPropertyChanged(propName);
+                return true;
             }
-
+            return false;
         }
 
+
+        protected void OnPropertyChanged<T>(Expression<Func<T>> propExpression) {
+            MemberExpression mexpr = propExpression.Body as MemberExpression;
+            if(mexpr != null) {
+                OnPropertyChanged(mexpr.Member.Name);
+            }
+        }
+
+        protected void OnPropertyChanged([CallerMemberName]string propName = "") {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+        }
 
     }
 }

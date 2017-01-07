@@ -19,6 +19,13 @@ namespace NLogLogger {
             return (ILog)NLog.LogManager.GetLogger(loggerName, typeof(NLogLogger.Logger));
         }
 
+        public void ShutdownLogging() {
+            try {
+                NLog.LogManager.Shutdown();
+            } catch(Exception) {
+                // Ignore Exception
+            }
+        }
 
     }
 }
