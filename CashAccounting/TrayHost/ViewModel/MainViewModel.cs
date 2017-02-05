@@ -7,6 +7,7 @@ using ILogging;
 using Microsoft.Owin.Hosting;
 using System.Net;
 using System.Net.NetworkInformation;
+using Owin;
 
 namespace TrayHost.ViewModel {
     public class MainViewModel : BaseViewModel {
@@ -101,6 +102,10 @@ namespace TrayHost.ViewModel {
         public void StartService() {
 
             try {
+
+                CashAccountingSvr.Startup strUp = new CashAccountingSvr.Startup(App.ioc);
+                Action<IAppBuilder> cfgMethod = strUp.Configuration;
+
                 ClassLogger.Info($" ---  Lokale Machine: {Environment.MachineName}");
                 string domainName = IPGlobalProperties.GetIPGlobalProperties().DomainName;
                 ClassLogger.Info($" ---  akutelle Domäne: {domainName}");
@@ -136,7 +141,7 @@ namespace TrayHost.ViewModel {
                 });
 
 
-                using(var wa = WebApp.Start<CashAccountingSvr.Startup>(options)) {
+                using(var wa = WebApp.Start(options, cfgMethod)) {
                     string urlList = options.Urls.Aggregate((s1, s2) => s1 + "\n                         " + s2);
                     ClassLogger.Info($"Server startet;\n   Started listening on: {urlList}");
                     Console.WriteLine("Press Enter to quit.");
