@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Unity = Microsoft.Practices.Unity;
 using IRepo = CashAccountingIRepo;
-using Reop = CashAccountingRepoMSSQL;
+using Repo = CashAccountingRepoMSSQL;
 
 namespace TrayHost {
     /// <summary>
@@ -21,11 +21,11 @@ namespace TrayHost {
 
 
         private void Application_Startup(object sender, StartupEventArgs e) {
-            ioc.RegisterInstance(typeof(ILogging.ILoggingFactory), "ILoggingFacotry", logFactory, new Unity.ContainerControlledLifetimeManager());
-            ioc.RegisterType(typeof(IRepo.IRepositoryFactory), typeof(Reop.RepositoryFactory), typeof(IRepo.IBankRepo).Name, new Unity.TransientLifetimeManager(), null);
-            ioc.RegisterType(typeof(IRepo.IBankRepo), typeof(Reop.BankRepo), typeof(IRepo.IBankRepo).Name, new Unity.TransientLifetimeManager(), null);
-            ioc.RegisterType(typeof(IRepo.IBelegRepo), typeof(Reop.BelegRepo), typeof(IRepo.IBankRepo).Name, new Unity.TransientLifetimeManager(), null);
-            ioc.RegisterType(typeof(IRepo.IFAKategorieRepo), typeof(Reop.FAKategorieRepo), typeof(IRepo.IBankRepo).Name, new Unity.TransientLifetimeManager(), null);
+            ioc.RegisterInstance(typeof(ILogging.ILoggingFactory), typeof(ILogging.ILoggingFactory).Name, logFactory, new Unity.ContainerControlledLifetimeManager());
+            ioc.RegisterType(typeof(IRepo.IRepositoryFactory), typeof(Repo.RepositoryFactory), typeof(IRepo.IBankRepo).Name, new Unity.TransientLifetimeManager(), new Unity.InjectionMember[0]);
+            ioc.RegisterType(typeof(IRepo.IBankRepo), typeof(Repo.BankRepo), typeof(IRepo.IBankRepo).Name, new Unity.TransientLifetimeManager(), new Unity.InjectionMember[0]);
+            ioc.RegisterType(typeof(IRepo.IBelegRepo), typeof(Repo.BelegRepo), typeof(IRepo.IBankRepo).Name, new Unity.TransientLifetimeManager(), new Unity.InjectionMember[0]);
+            ioc.RegisterType(typeof(IRepo.IFAKategorieRepo), typeof(Repo.FAKategorieRepo), typeof(IRepo.IBankRepo).Name, new Unity.TransientLifetimeManager(), new Unity.InjectionMember[0]);
         }
 
         private void Application_Exit(object sender, ExitEventArgs e) {

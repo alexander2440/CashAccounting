@@ -16,7 +16,7 @@ namespace CashAccountingSvr {
 
         public Startup(IUnityContainer ioc) {
             this.IoC = ioc;
-            ClassLogger = (IoC.Resolve(typeof(ILoggingFactory), typeof(ILoggingFactory).Name, null) as ILoggingFactory)?.GetCurrentClassLogger();
+            ClassLogger = (IoC.Resolve(typeof(ILoggingFactory), typeof(ILoggingFactory).Name) as ILoggingFactory)?.GetCurrentClassLogger();
         }
 
         public void Configuration(IAppBuilder appBuilder) {

@@ -13,7 +13,7 @@ namespace TrayHost.ViewModel {
     public class MainViewModel : BaseViewModel {
 
 
-        private ILog ClassLogger = (App.ioc.Resolve(typeof(ILoggingFactory), typeof(ILoggingFactory).Name, null) as ILoggingFactory)?.GetCurrentClassLogger();
+        private ILog ClassLogger = (App.ioc.Resolve(typeof(ILoggingFactory), typeof(ILoggingFactory).Name) as ILoggingFactory)?.GetCurrentClassLogger();
 
         private bool started = false;
         private bool inProgress = false;
@@ -54,7 +54,7 @@ namespace TrayHost.ViewModel {
         private RelayCommand _ServiceStart = null;
         public RelayCommand ServiceStart {
             get {
-                if(ServiceStart == null) {
+                if(_ServiceStart == null) {
                     _ServiceStart = new RelayCommand(ServiceStartExecute, ServiceStartCanExecute);
                 }
                 return _ServiceStart;
