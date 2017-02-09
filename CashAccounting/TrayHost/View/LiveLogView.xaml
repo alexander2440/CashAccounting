@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="TrayHost.View.LiveLogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:my="clr-namespace:TrayHost.View"
+             xmlns:vm="clr-namespace:TrayHost.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <vm:LiveLogViewModel  x:Key="MyDataContext"/>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <StaticResource ResourceKey="MyDataContext"/>
+    </UserControl.DataContext>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <TextBox  Text="{Binding NlogRulePattern}" Width="250"/>
+            <Button Content="..." />
+        </StackPanel>
+        <ListBox ItemsSource="{Binding LogLines}" FontFamily="Courier New" Name="LogList"  
+                 SelectionMode="Extended" >
+            <ListBox.InputBindings>
+                <KeyBinding Key="C"
+                    Modifiers="Ctrl"
+                    Command="Copy" />
+            </ListBox.InputBindings>
+
+            <ListBox.CommandBindings>
+                <CommandBinding Command="Copy"
+                        Executed="CopyLogExecuted"
+                        CanExecute="CanExecuteCopyLog" />
+            </ListBox.CommandBindings>
+
+            <ListBox.Resources>
+                <Style TargetType="ListBoxItem">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=Level}" Value="Trace">
+                            <Setter Property="Foreground" Value="Gray" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=Level}" Value="Debug">
+                            <Setter Property="Foreground" Value="DimGray" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=Level}" Value="Info">
+                            <Setter Property="FontWeight"  Value="Bold" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=Level}" Value="Error">
+                            <Setter Property="Foreground" Value="Red" />
+                            <Setter Property="Background" Value="LightYellow" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=Level}" Value="Fatal">
+                            <Setter Property="Foreground" Value="Red" />
+                            <Setter Property="Background" Value="Yellow" />
+                           
+
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.Resources>
+
+        </ListBox>
+    </DockPanel>
+</UserControl>

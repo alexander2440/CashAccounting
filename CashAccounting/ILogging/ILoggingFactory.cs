@@ -10,5 +10,7 @@ namespace ILogging {
         ILog GetCurrentClassLogger();
         ILog GetLogger(string loggerName);
 
+        void ShutdownLogging();
+
     }
 }

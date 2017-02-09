@@ -5,6 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ILogging {
+
+    public enum Level {
+        Trace,
+        Debug,
+        Info,
+        Warn,
+        Error,
+        Fatal,
+        Off
+    }
+
+
     public interface ILog {
 
         bool IsTraceEnabled { get; }

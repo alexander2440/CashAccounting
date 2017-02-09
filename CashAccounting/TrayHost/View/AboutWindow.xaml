@@ -1,0 +1,70 @@
+﻿<Window x:Class="TrayHost.View.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:my="clr-namespace:TrayHost.View"
+        xmlns:vm="clr-namespace:TrayHost.ViewModel"
+        Title="About Wpf Tray Host" Height="225" Width="629" >
+    <Window.Resources>
+        <vm:AboutViewModel x:Key="MyDataContext"/>
+    </Window.Resources>
+    <Window.DataContext>
+        <StaticResource ResourceKey="MyDataContext"/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer>
+        <StackPanel Grid.Row="0"  VerticalAlignment="Top" >
+            <TextBlock FontSize="12" FontWeight="Bold" Margin="5,5,0,0">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="Client ({1}) - Version {0}">
+                        <Binding Path="ClientVersion" />
+                        <Binding Path="ClientHost"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+            <Expander Name="ClientVersions" Header="Details" Margin="20,0,0,0">
+                <DataGrid ItemsSource="{Binding ClientVersionDetails}"   AutoGenerateColumns="false"  IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Path=Name}" Header="Artefakt" Width="15*"/>
+                        <DataGridTextColumn Binding="{Binding Path=Version}" Header="Version" Width="25*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Expander>
+            <TextBlock FontSize="12" FontWeight="Bold" Margin="5,5,0,0">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="Server ({1}) - Version {0}">
+                        <Binding Path="ServerVersion" />
+                        <Binding Path="ServerHost"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+                <Expander Name="ServerVersions" Header="Details" Margin="20,0,0,0">
+                <DataGrid ItemsSource="{Binding ServerVersionDetails}"   AutoGenerateColumns="false"  IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Path=Name}" Header="Artefakt" Width="15*"/>
+                        <DataGridTextColumn Binding="{Binding Path=Version}" Header="Version" Width="25*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Expander>
+                <TextBlock FontSize="12" FontWeight="Bold" Margin="5,5,0,0" Text="{Binding Path=UserName, StringFormat='User: \{0\}'}"/>
+                <Expander Name="Berechtigungen" Header="Details" Margin="20,0,0,0">
+                    <DataGrid ItemsSource="{Binding Berechtigungen}"   AutoGenerateColumns="false"  IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Path=.}" Header="Berechtigung" Width="40*"/>
+                            
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Expander>
+
+            </StackPanel>
+            
+        </ScrollViewer>
+        <StackPanel Grid.Row="1"  VerticalAlignment="Bottom" >
+            <Button Content="Ok"  Width="80" Click="Button_Click"  />
+        </StackPanel>
+        
+    </Grid>
+</Window>
