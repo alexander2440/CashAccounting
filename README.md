@@ -1,2 +1,2 @@
 # CashAccounting
-Cash accounting for very small companies
+Cash accounting for very small companies.
